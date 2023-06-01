@@ -1,0 +1,13 @@
+{
+  "name": "medix-inventory-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "4.12.4",
+    "@types/react-router-dom": "5.3.3",
+    "typescript": "5.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start --max-workers=1 --entry=./src/index.tsx"
+  }
+}
