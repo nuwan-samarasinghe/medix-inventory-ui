@@ -7,7 +7,7 @@ class EditableTableRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.rowData,
+            data: this.props.rowData
         };
     }
 
@@ -15,6 +15,9 @@ class EditableTableRow extends Component {
         this.setState({
             data: {...this.state.data, [field]: e.target.value},
         });
+        let val = this.state.data;
+        val[field] = e.target.value;
+        this.props.loadSlaveData(val);
     };
 
     handleDelete = () => {

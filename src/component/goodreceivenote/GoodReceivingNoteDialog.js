@@ -26,12 +26,7 @@ class GoodReceivingNoteDialog extends Component {
             openDialog: false,
             dataValue: null,
             loading: false,
-            newGrcnData: {
-                grcnId: this.props.newGrcnContent.newGrcnData.grcnId,
-                poNo: '',
-                supplierName: '',
-                slaveData: []
-            }
+            newGrcnData: this.props.newGrcnContent.newGrcnData
         }
     }
 
@@ -47,6 +42,7 @@ class GoodReceivingNoteDialog extends Component {
             loading: false,
             newGrcnData: this.state.newGrcnData
         })
+        alert("call and get the latest grcn id");
     };
 
     handleClose = () => {
@@ -62,7 +58,26 @@ class GoodReceivingNoteDialog extends Component {
             loading: true,
             newGrcnData: this.state.newGrcnData
         });
+        this.props.newGrcnContent.newGrcnDataReloadFunction(this.state.newGrcnData);
     };
+
+    removeObjectAndPushNew = (array, idToRemove, newObject) => {
+        // Filter out the object with the specified ID
+        const filteredArray = array.filter(obj => obj.id !== idToRemove);
+        // Push the new object to the filtered array
+        filteredArray.push(newObject);
+        return filteredArray;
+    }
+
+    loadSlaveData = (newSlaveData) => {
+        let data = this.state.newGrcnData;
+        data.slaveData = this.removeObjectAndPushNew(data.slaveData, newSlaveData.id, newSlaveData);
+        this.setState({
+            openDialog: this.state.openDialog,
+            loading: this.state.loading,
+            newGrcnData: data
+        })
+    }
 
     render() {
         const {classes} = this.props;
@@ -105,7 +120,7 @@ class GoodReceivingNoteDialog extends Component {
                                                fullWidth/>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <EditableTable slaveData={this.state.slaveData}/>
+                                    <EditableTable loadSlaveData={this.loadSlaveData}/>
                                 </Grid>
                             </Grid>
                         </DialogContent>

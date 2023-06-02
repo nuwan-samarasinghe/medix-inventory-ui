@@ -6,8 +6,7 @@ import GoodReceivingNoteDialog from "./GoodReceivingNoteDialog";
 
 const useStyles = (theme) => ({
     buttonAlign: {
-        textAlign: 'right',
-        margin: theme.spacing(1),
+        textAlign: 'right', margin: theme.spacing(1),
     }
 });
 
@@ -21,34 +20,29 @@ class NewGoodReceivingNote extends Component {
                 clickChild: click => this.clickChild = click,
                 newGrcnDataReloadFunction: this.loadDataSetToMainTable,
                 newGrcnData: {
-                    grcnId: '1234',
-                    poNo: '',
-                    supplierName: '',
-                    slaveData: []
+                    grcnId: '', poNo: '', supplierName: '', slaveData: []
                 }
             }
         }
     }
 
-    loadDataSetToMainTable() {
-        console.log(this.state.newGrcnContent.newGrcnData);
-        this.state.newGrcnContent.newGrcnDataReloadFunction();
+    loadDataSetToMainTable(newGrcnData) {
+        alert("calling the back end to save data");
+        console.log(newGrcnData);
     }
 
     render() {
         const {classes} = this.props;
-        return (
-            <div className={classes.buttonAlign}>
-                <Button
-                    color="primary"
-                    onClick={() => this.clickChild()}
-                    startIcon={<AddCircleOutline/>}
-                >
-                    Add New Good Receiving Note
-                </Button>
-                <GoodReceivingNoteDialog newGrcnContent={this.state.newGrcnContent}/>
-            </div>
-        );
+        return (<div className={classes.buttonAlign}>
+            <Button
+                color="primary"
+                onClick={() => this.clickChild()}
+                startIcon={<AddCircleOutline/>}
+            >
+                Add New Good Receiving Note
+            </Button>
+            <GoodReceivingNoteDialog newGrcnContent={this.state.newGrcnContent}/>
+        </div>);
     }
 }
 

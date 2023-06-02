@@ -8,6 +8,7 @@ class EditableTable extends Component {
         super(props);
         this.state = {
             rows: [],
+            loadSlaveData: this.props.loadSlaveData
         };
     }
 
@@ -66,6 +67,7 @@ class EditableTable extends Component {
                                 key={row.id}
                                 rowData={row}
                                 onDelete={this.handleDeleteRow}
+                                loadSlaveData={this.state.loadSlaveData}
                             />
                         ))}
                     </TableBody>
