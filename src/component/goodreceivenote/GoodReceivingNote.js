@@ -6,6 +6,9 @@ import Grid from "@material-ui/core/Grid";
 import TableSummery from "../common/tablesummery/TableSummery";
 import NewGoodReceivingNote from "./NewGoodReceivingNote";
 import Typography from "@material-ui/core/Typography";
+import AxiosService from "../../service/AxiosService";
+import environment from "../../environment";
+import MessageDialog from "../common/dialog/MessageDialog";
 
 const useStyles = (theme) => ({
     backdrop: {
@@ -23,8 +26,87 @@ class GoodReceivingNote extends Component {
         this.properties = props;
         this.state = {
             rows: [],
-            loading: true
+            loading: true,
+            msgContent: {
+                title: null,
+                massage: null,
+                clickChildMsg: click => this.clickChildMsg = click
+            }
         }
+    }
+
+    createData(
+        grcnId, poNo, supplierName, supplierId, receivedDate, itemId, itemName, category, expiryDate, batchNo,
+        partNo, receivedQty, location, itemUnit, status, remark) {
+        return {
+            grcnId,
+            poNo,
+            supplierName,
+            supplierId,
+            receivedDate,
+            itemId,
+            itemName,
+            category,
+            expiryDate,
+            batchNo,
+            partNo,
+            receivedQty,
+            location,
+            itemUnit,
+            status,
+            remark
+        };
+    }
+
+    componentDidMount() {
+        new AxiosService()
+            .getAxios(environment.inventoryServiceUri + '/grns', null)
+            .then(async value => {
+                value.data.grns.forEach(data => {
+                    data.itemRequests.forEach(itemRequest => {
+                        this.state.rows.push(this.createData(
+                            data.grcnId,
+                            data.poNo,
+                            data.supplierName,
+                            itemRequest.supplierId,
+                            itemRequest.receivedDate,
+                            itemRequest.itemId,
+                            itemRequest.itemName,
+                            itemRequest.category,
+                            itemRequest.expiryDate,
+                            itemRequest.batchNo,
+                            itemRequest.partNo,
+                            itemRequest.receivedQty,
+                            itemRequest.location,
+                            itemRequest.itemUnit,
+                            itemRequest.status,
+                            itemRequest.remark
+                        ));
+                        this.setState({
+                            rows: this.state.rows,
+                            loading: false,
+                            msgContent: this.state.msgContent,
+                            newSupplier: this.state.newSupplier,
+                            searchValue: this.state.searchValue
+                        })
+                    })
+                });
+            }).catch(reason => {
+            if (reason.message === 'Network Error') {
+                this.setState({
+                    rows: this.state.rows,
+                    loading: false,
+                    msgContent: {
+                        title: 'Service Error',
+                        message: 'Supplier service is temporary unavailable please try again later!!.',
+                        clickChild: this.state.msgContent.clickChild
+                    },
+                    newSupplier: this.state.newSupplier,
+                    searchValue: this.state.searchValue
+                });
+                this.clickChildMsg();
+            }
+        })
     }
 
     render() {
@@ -53,6 +135,7 @@ class GoodReceivingNote extends Component {
                         </Grid>
                     </Grid>
                 </CardContent>
+                <MessageDialog messageContent={this.state.msgContent}/>
             </Card>
         );
 

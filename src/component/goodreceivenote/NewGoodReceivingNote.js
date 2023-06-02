@@ -46,11 +46,36 @@ class NewGoodReceivingNote extends Component {
         new AxiosService()
             .postAxios(environment.inventoryServiceUri + '/grn', newGrcnData)
             .then(async value => {
-                alert("sadsads");
+                this.setState({
+                    loading: false,
+                    newGrcnContent: {
+                        loading: false,
+                        title: 'Add Good Receiving Details',
+                        clickChild: click => this.clickChild = click,
+                        newGrcnDataReloadFunction: this.loadDataSetToMainTable,
+                        newGrcnData: {
+                            poNo: '', supplierName: '', itemRequests: []
+                        }
+                    },
+                    msgContent: {
+                        title: null,
+                        massage: null,
+                        clickChildMsg: click => this.clickChildMsg = click
+                    },
+                });
             }).catch(() => {
             this.setState({
                 rows: this.state.rows,
                 loading: false,
+                newGrcnContent: {
+                    loading: false,
+                    title: 'Add Good Receiving Details',
+                    clickChild: click => this.clickChild = click,
+                    newGrcnDataReloadFunction: this.loadDataSetToMainTable,
+                    newGrcnData: {
+                        poNo: '', supplierName: '', itemRequests: []
+                    }
+                },
                 msgContent: {
                     title: 'Service Error',
                     message: 'Good receive note adding failed!!.',
@@ -58,12 +83,6 @@ class NewGoodReceivingNote extends Component {
                 }
             });
             this.clickChildMsg();
-        })
-        this.setState({
-            ...this.state,
-            newGrcnData: {
-                poNo: '', supplierName: '', itemRequests: []
-            }
         })
     }
 
