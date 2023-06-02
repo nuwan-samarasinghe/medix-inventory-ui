@@ -74,7 +74,7 @@ export default function AppHeader({handleDrawerOpen, open}) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        SYNERGY-BIO IMS
+                        MEDIX - INVENTORY
                     </Typography>
                     {auth && (
                         <div>

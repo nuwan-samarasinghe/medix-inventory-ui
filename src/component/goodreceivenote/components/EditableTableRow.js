@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
-import {TableRow, TableCell, IconButton} from '@material-ui/core';
+import {TableRow, TableCell, IconButton, Select} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 
 class EditableTableRow extends Component {
+
+    categoryOptions = [
+        {value: 'Clean Room Products'},
+        {value: 'General Laboratory Products'},
+        {value: 'Medical Equipment'},
+        {value: 'Laboratory Consumables'}
+    ];
+
     constructor(props) {
         super(props);
         this.state = {
@@ -44,22 +53,27 @@ class EditableTableRow extends Component {
                     />
                 </TableCell>
                 <TableCell>
-                    <TextField
+                    <Select
                         autoFocus margin="dense" id="category" type="text" fullWidth
-                        value={data.category}
                         onChange={(e) => this.handleChange(e, 'category')}
-                    />
+                    >
+                        {this.categoryOptions.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.value}
+                            </MenuItem>
+                        ))}
+                    </Select>
                 </TableCell>
                 <TableCell>
                     <TextField
-                        autoFocus margin="dense" id="expiryDate" type="text" fullWidth
+                        autoFocus margin="dense" id="expiryDate" type="date" fullWidth
                         value={data.expiryDate}
                         onChange={(e) => this.handleChange(e, 'expiryDate')}
                     />
                 </TableCell>
                 <TableCell>
                     <TextField
-                        autoFocus margin="dense" id="receivedDate" type="text" fullWidth
+                        autoFocus margin="dense" id="receivedDate" type="date" fullWidth
                         value={data.receivedDate}
                         onChange={(e) => this.handleChange(e, 'receivedDate')}
                     />

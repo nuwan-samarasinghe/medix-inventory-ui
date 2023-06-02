@@ -152,7 +152,7 @@ class TableSummery extends Component {
                                                 }
                                             })}
                                         </TableRow>
-                                    )) : <center><h3>No data to display!!!</h3></center>}
+                                    )) : <p>No data available to preview.</p>}
                         </TableBody>
                     </Table>
                 </TableContainer>);

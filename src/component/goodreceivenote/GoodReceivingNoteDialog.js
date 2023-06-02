@@ -42,12 +42,12 @@ class GoodReceivingNoteDialog extends Component {
             loading: false,
             newGrcnData: this.state.newGrcnData
         })
-        alert("call and get the latest grcn id");
     };
 
     handleClose = () => {
         this.setState({
             openDialog: false,
+            loading: false,
             newGrcnData: this.state.newGrcnData
         })
     };
@@ -55,7 +55,7 @@ class GoodReceivingNoteDialog extends Component {
     handleSave = () => {
         this.setState({
             openDialog: false,
-            loading: true,
+            loading: false,
             newGrcnData: this.state.newGrcnData
         });
         this.props.newGrcnContent.newGrcnDataReloadFunction(this.state.newGrcnData);

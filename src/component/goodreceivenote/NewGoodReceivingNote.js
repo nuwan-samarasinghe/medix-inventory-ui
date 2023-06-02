@@ -3,6 +3,11 @@ import Button from '@material-ui/core/Button';
 import {AddCircleOutline} from "@material-ui/icons";
 import {withStyles} from "@material-ui/core";
 import GoodReceivingNoteDialog from "./GoodReceivingNoteDialog";
+import AxiosService from "../../service/AxiosService";
+import environment from "../../environment";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import MessageDialog from "../common/dialog/MessageDialog";
 
 const useStyles = (theme) => ({
     buttonAlign: {
@@ -16,33 +21,72 @@ class NewGoodReceivingNote extends Component {
         super(props);
         this.state = {
             newGrcnContent: {
+                loading: false,
                 title: 'Add Good Receiving Details',
                 clickChild: click => this.clickChild = click,
                 newGrcnDataReloadFunction: this.loadDataSetToMainTable,
                 newGrcnData: {
                     grcnId: '', poNo: '', supplierName: '', slaveData: []
                 }
-            }
+            },
+            msgContent: {
+                title: null,
+                massage: null,
+                clickChildMsg: click => this.clickChildMsg = click
+            },
         }
     }
 
-    loadDataSetToMainTable(newGrcnData) {
-        alert("calling the back end to save data");
+    loadDataSetToMainTable = (newGrcnData) => {
         console.log(newGrcnData);
+        this.setState({
+            ...this.state,
+            loading: true
+        })
+        new AxiosService()
+            .postAxios(environment.inventoryServiceUri + '/goodReceivingNote/add', newGrcnData)
+            .then(async value => {
+                alert("sadsads");
+            }).catch(() => {
+            this.setState({
+                rows: this.state.rows,
+                loading: false,
+                msgContent: {
+                    title: 'Service Error',
+                    message: 'Good receive note adding failed!!.',
+                    clickChildMsg: this.state.msgContent.clickChildMsg
+                }
+            });
+            this.clickChildMsg();
+        })
+
     }
 
     render() {
         const {classes} = this.props;
-        return (<div className={classes.buttonAlign}>
-            <Button
-                color="primary"
-                onClick={() => this.clickChild()}
-                startIcon={<AddCircleOutline/>}
-            >
-                Add New Good Receiving Note
-            </Button>
-            <GoodReceivingNoteDialog newGrcnContent={this.state.newGrcnContent}/>
-        </div>);
+        if (this.state.loading) {
+            return (
+                <Backdrop
+                    className={classes.backdrop}
+                    open={this.state.loading}>
+                    <CircularProgress color="inherit"/>
+                </Backdrop>
+            );
+        } else {
+            return (
+                <div className={classes.buttonAlign}>
+                    <Button
+                        color="primary"
+                        onClick={() => this.clickChild()}
+                        startIcon={<AddCircleOutline/>}
+                    >
+                        Add
+                    </Button>
+                    <GoodReceivingNoteDialog newGrcnContent={this.state.newGrcnContent}/>
+                    <MessageDialog messageContent={this.state.msgContent}/>
+                </div>
+            );
+        }
     }
 }
 
