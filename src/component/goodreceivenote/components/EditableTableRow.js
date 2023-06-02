@@ -115,6 +115,13 @@ class EditableTableRow extends Component {
                 </TableCell>
                 <TableCell>
                     <TextField
+                        autoFocus margin="dense" id="partNo" type="text" fullWidth
+                        value={data.partNo}
+                        onChange={(e) => this.handleChange(e, 'partNo')}
+                    />
+                </TableCell>
+                <TableCell>
+                    <TextField
                         autoFocus margin="dense" id="status" type="text" fullWidth
                         value={data.status}
                         onChange={(e) => this.handleChange(e, 'status')}

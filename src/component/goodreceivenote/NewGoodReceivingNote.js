@@ -26,7 +26,7 @@ class NewGoodReceivingNote extends Component {
                 clickChild: click => this.clickChild = click,
                 newGrcnDataReloadFunction: this.loadDataSetToMainTable,
                 newGrcnData: {
-                    grcnId: '', poNo: '', supplierName: '', slaveData: []
+                    poNo: '', supplierName: '', itemRequests: []
                 }
             },
             msgContent: {
@@ -44,7 +44,7 @@ class NewGoodReceivingNote extends Component {
             loading: true
         })
         new AxiosService()
-            .postAxios(environment.inventoryServiceUri + '/goodReceivingNote/add', newGrcnData)
+            .postAxios(environment.inventoryServiceUri + '/grn', newGrcnData)
             .then(async value => {
                 alert("sadsads");
             }).catch(() => {
@@ -59,7 +59,12 @@ class NewGoodReceivingNote extends Component {
             });
             this.clickChildMsg();
         })
-
+        this.setState({
+            ...this.state,
+            newGrcnData: {
+                poNo: '', supplierName: '', itemRequests: []
+            }
+        })
     }
 
     render() {

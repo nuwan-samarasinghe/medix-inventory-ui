@@ -69,9 +69,15 @@ class GoodReceivingNoteDialog extends Component {
         return filteredArray;
     }
 
-    loadSlaveData = (newSlaveData) => {
+    handleChange = (e, field) => {
+        this.setState({
+            newGrcnData: {...this.state.newGrcnData, [field]: e.target.value},
+        });
+    };
+
+    loadSlaveData = (newItemRequests) => {
         let data = this.state.newGrcnData;
-        data.slaveData = this.removeObjectAndPushNew(data.slaveData, newSlaveData.id, newSlaveData);
+        data.itemRequests = this.removeObjectAndPushNew(data.itemRequests, newItemRequests.id, newItemRequests);
         this.setState({
             openDialog: this.state.openDialog,
             loading: this.state.loading,
@@ -103,22 +109,17 @@ class GoodReceivingNoteDialog extends Component {
                         <DialogContent>
                             <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                                 <Grid item xs={6}>
-                                    <TextField
-                                        disabled
-                                        value={this.state.newGrcnData != null ? this.state.newGrcnData.grcnId : ""}
-                                        autoFocus margin="dense" id="name" label="Good Receive Note No" type="text"
-                                        fullWidth/>
+                                    <TextField autoFocus margin="dense" id="name" label="Purchase Order No" type="text"
+                                               onChange={(e) => this.handleChange(e, 'poNo')}
+                                               fullWidth/>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField autoFocus margin="dense" id="name" label="Purchase Order No" type="text"
+                                    <TextField autoFocus margin="dense" id="name" label="Supplier Name" type="text"
+                                               onChange={(e) => this.handleChange(e, 'supplierName')}
                                                fullWidth/>
                                 </Grid>
                             </Grid>
                             <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
-                                <Grid item xs={12}>
-                                    <TextField autoFocus margin="dense" id="name" label="Supplier Name" type="text"
-                                               fullWidth/>
-                                </Grid>
                                 <Grid item xs={12}>
                                     <EditableTable loadSlaveData={this.loadSlaveData}/>
                                 </Grid>

@@ -23,6 +23,7 @@ class EditableTable extends Component {
             batchNo: '',
             orderedQty: '',
             receivedQty: '',
+            partNo: '',
             location: '',
             itemUnit: '',
             status: '',
@@ -56,6 +57,7 @@ class EditableTable extends Component {
                             <TableCell>Received Quantity</TableCell>
                             <TableCell>Location</TableCell>
                             <TableCell>Item Unit</TableCell>
+                            <TableCell>Part Number</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Remark</TableCell>
                             <TableCell></TableCell>
