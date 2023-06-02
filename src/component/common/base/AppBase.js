@@ -23,6 +23,7 @@ import {NavLink} from 'react-router-dom';
 import Dashboard from "../../dashboard/Dashboard";
 import UserManagement from "../../usermanagement/UserManagement";
 import ProtectedRoute from "../ProtectedRoute";
+import GoodReceivingNote from "../../goodreceivenote/GoodReceivingNote";
 
 const drawerWidth = 295;
 
@@ -173,15 +174,15 @@ export default function AppBase() {
                         <List component="div" disablePadding>
                             <ListItem
                                 button
-                                className={classes.nested} {...{component: NavLink, to: "/supplier-order"}}
+                                className={classes.nested} {...{component: NavLink, to: '/good-receiving-note'}}
                                 selected={selectedIndexOrder === 1}
                                 classes={{selected: classes.selectedSub}}
                                 onClick={(event) => handleOrderSubmenuClick(event, 1)}
-                                key="purchase-order">
+                                key="good-receiving-note">
                                 <ListItemIcon>
                                     <ReceiptIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Purchase Orders"/>
+                                <ListItemText primary="Good Receiving Note"/>
                             </ListItem>
                         </List>
                     </Collapse>
@@ -220,6 +221,7 @@ export default function AppBase() {
                 <Switch>
                     <ProtectedRoute exact path='/' component={Dashboard}/>
                     <ProtectedRoute exact path='/user-management' component={UserManagement}/>
+                    <ProtectedRoute exact path='/good-receiving-note' component={GoodReceivingNote}/>
                 </Switch>
             </main>
         </div>
